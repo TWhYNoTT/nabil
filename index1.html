@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NABIL | Law Firm</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+        }
+
+        :root {
+            --gold: #B8860B;
+            --dark-gold: #8B6914;
+            --light-gold: #DAA520;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+            animation: slideDown 1s ease-out;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            padding: 5px 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 0;
+            background-color: var(--gold);
+            transition: height 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 2px;
+            height: 0;
+            background-color: var(--gold);
+            transition: height 0.3s ease;
+        }
+
+        nav a:hover::before,
+        nav a:hover::after {
+            height: 100%;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('/_mg_6414-1.jpg') center/cover;
+            animation: zoomIn 1.5s ease-out;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 8vw;
+            font-weight: bold;
+            letter-spacing: 15px;
+            white-space: nowrap;
+            animation: revealText 2s ease-out;
+            transition: all 0.5s ease;
+            position: relative;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+            color: var(--gold);
+        }
+
+        .law-symbol {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .law-symbol::before {
+            content: '⚖';
+            font-size: 400px;
+            position: absolute;
+            opacity: 0.03;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .decorative-border {
+            position: fixed;
+            pointer-events: none;
+        }
+
+        .decorative-border.top {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .decorative-border.bottom {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .corner {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--gold);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .corner.top-left {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner.top-right {
+            top: 20px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: loaderFadeOut 1s ease-out 2s forwards;
+        }
+
+        .loader::after {
+            content: '⚖';
+            font-size: 40px;
+            color: var(--gold);
+            animation: bounce 1s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) rotate(5deg);
+            }
+        }
+
+        @keyframes loaderFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(1.1);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes revealText {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                filter: blur(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Pillars of Justice Animation */
+        .pillars {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 100px;
+            opacity: 0.1;
+        }
+
+        .pillar {
+            width: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: pillarRise 2s ease-out;
+        }
+
+        @keyframes pillarRise {
+            from {
+                height: 0;
+            }
+
+            to {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader"></div>
+
+    <nav>
+        <a href="#practice">Practice Areas</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="hero">
+        <div class="law-symbol"></div>
+        <div class="title-container">
+            <h1 class="title">NABIL</h1>
+            <div class="subtitle">ATTORNEY AT LAW</div>
+        </div>
+        <div class="pillars">
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="decorative-border top"></div>
+    <div class="decorative-border bottom"></div>
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
+</body>
+
+</html>
